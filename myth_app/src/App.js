@@ -9,31 +9,66 @@ import './css/small-business.css'
 
 // Container
 class App extends React.Component {
-    constructor()
+    constructor(props)
     {
-        super()
+        super(props)
         this.state = {
-            show: true
-            prueba: false
+            showMain: true,
+            showBestiary: false,
+            showStories: false
         };
-        this.changeShowState = this.changeShowState.bind(this)
+        this.changeShowMain = this.changeShowMain.bind(this)
+        this.changeShowBestiary = this.changeShowBestiary.bind(this)
+        this.changeShowStories = this.changeShowStories.bind(this)
     }
 
-    changeShowState() {
-        this.setState ({
-          show: !this.state.show
+    changeShowMain() {
+      this.setState ({
+        showMain: true,
+        showBestiary: false,
+        showStories: false
+      });
+    }
+
+    changeShowBestiary() {
+      this.setState ({
+          showMain: false,
+          showBestiary: true,
+          showStories: false
         });
-        console.log(this.state.show)
+
+    }
+
+    changeShowStories() {
+        this.setState ({
+          showMain: false,
+          showBestiary: false,
+          showStories: true
+        });
     }
 
     render() {
         return (
-
           <div id="page-container">
                 <Navigation/>
                 <div id="content-wrap">
                     <div className="container">
-                        { this.state.show && <Content changeShowState={this.changeShowState}  /> }
+                        { this.state.showMain && <Content
+                          changeShowMain={this.changeShowMain}
+                          changeShowBestiary={this.changeShowBestiary}
+                          changeShowStories={this.changeShowStories}  /> }
+                    </div>
+                    <div className="container">
+                        { this.state.showBestiary && <Bestiary
+                          changeShowMain={this.changeShowMain}
+                          changeShowBestiary={this.changeShowBestiary}
+                          changeShowStories={this.changeShowStories}  /> }
+                    </div>
+                    <div>
+                        { this.state.showStories && <Stories
+                          changeShowMain={this.changeShowMain}
+                          changeShowBestiary={this.changeShowBestiary}
+                          changeShowStories={this.changeShowStories}  /> }
                     </div>
                 </div>
                 <Footer/>
@@ -48,7 +83,7 @@ class Navigation extends React.Component {
         return (
             <div id="navigation" className="Navigation">
                 <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <a href="#" className="navbar-brand"></a>
+                    <a href="www.google.es" className="navbar-brand"></a>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -56,16 +91,16 @@ class Navigation extends React.Component {
                     <div className="collapse navbar-collapse" id="navbarColor01">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                                <a className="nav-link" href="www.google.es">Home <span className="sr-only">(current)</span></a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Features</a>
+                                <a className="nav-link" href="www.google.es">Features</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Pricing</a>
+                                <a className="nav-link" href="www.google.es">Pricing</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">About</a>
+                                <a className="nav-link" href="www.google.es">About</a>
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
@@ -95,8 +130,7 @@ class Content extends React.Component {
                                 colectivo. </p>
                         </div>
                         <div className="card-footer text-center">
-                            <a href=""
-                               className="btn btn-primary btn-sm">Acceder</a>
+                            <button type="button" className="btn btn-primary btn-sm" onClick={ this.props.changeShowBestiary }>Acceder</button>
                         </div>
                     </div>
                 </div>
@@ -113,10 +147,34 @@ class Content extends React.Component {
                                 ibérica. </p>
                         </div>
                         <div className="card-footer text-center">
-                            <button type="button" onClick={ this.props.changeShowState }>Acceder</button>
+                            <button type="button" className="btn btn-primary btn-sm" onClick={ this.props.changeShowStories }>Acceder</button>
                         </div>
                     </div>
                 </div>
+            </div>
+        );
+    }
+}
+
+// Bestiary component
+class Bestiary extends React.Component {
+    render() {
+        return (
+            <div className="card-footer text-center">
+                <h1>Bestiary</h1>
+                <button type="button" className="btn btn-primary btn-sm" onClick={ this.props.changeShowMain }>Acceder</button>
+            </div>
+        );
+    }
+}
+
+// Stories and tales component
+class Stories extends React.Component {
+    render() {
+        return (
+            <div className="card-footer text-center">
+                <h1>Stories</h1>
+                <button type="button" className="btn btn-primary btn-sm" onClick={ this.props.changeShowMain }>Acceder</button>
             </div>
         );
     }
